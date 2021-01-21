@@ -14,6 +14,13 @@ const mockUpStrand = () => {
 };
 
 const pAequorFactory = (num, array) =>{
+  /*
+  description: function that creates species object
+  return type: pAequor object
+  param:
+  - num - specie's identity number
+  - array - DNA strand of specie
+  */
   const obj = {
     _specimenNum: num,
     _dna: array,
