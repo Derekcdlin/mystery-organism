@@ -23,7 +23,15 @@ const pAequorFactory = (num, array) =>{
     get dna(){
       return this._dna;
     },
+    toString(){
+      return `Specimen Number: ${this.specimenNum}\nDNA: ${this.dna}`;
+    },
     mutate(){
+      /*
+      description: randomly changes one base in DNA strand to a different base
+      return type: array
+      param: none
+      */
       const randBaseIndex = Math.floor(Math.random() * this.dna.length);
       let diffBase;
       do{
@@ -32,10 +40,14 @@ const pAequorFactory = (num, array) =>{
       this.dna[randBaseIndex] = diffBase;
       return this.dna;
     },
-    toString(){
-      return `Specimen Number: ${this.specimenNum}\nDNA: ${this.dna}`;
-    },
     compareDNA(obj, bool=true){
+      /*
+      description: finds the percentage similarity between two DNA strands
+      return type: number
+      param:
+      - obj - pAequorFactory Object
+      - bool - determines whether or not to print DNA comparison string
+      */
       let count = 0;
       for(let i = 0; i < Math.min(this.dna.length, obj.dna.length); i++){
         if(this.dna[i] === obj.dna[i]){
@@ -49,11 +61,21 @@ const pAequorFactory = (num, array) =>{
       return ret_perc;
     },
     willLikelySurvive(){
+      /*
+      description: returns true or false if number of C or G base is at least 60%
+      return type: boolean
+      param: none
+      */
       const numCorG = this.dna.filter(base => (base === 'C' || base === 'G')).length;
       const percCorG = (numCorG/this.dna.length) * 100;
       return (percCorG >= 60);
     },
     complementStrand(){
+      /*
+      description: returns complement DNA srand of this specie
+      return type: array
+      param: none
+      */
       const complement = this.dna.map((base) => {
         switch(base){
           case 'A':
@@ -73,15 +95,23 @@ const pAequorFactory = (num, array) =>{
 };
 
 const twoMostSimilarDNA = (arr) => {
+  /*
+  description: finds the two most similar DNA strands given an array of species
+  return type: none
+  param:
+  - arr - an array of pAequorFactory Objects
+  */
   let largestSimilarity = 0;
   let index1;
   let index2;
   for(let i = 0; i < arr.length-1 ; i++){
     for(let j = 1; j < arr.length; j++){
-      if(i == j){
+      if(i == j){ //don't compare the same specie
         continue;
       }
+
       let currentSimilarity = arr[i].compareDNA(arr[j],false);
+
       if(currentSimilarity > largestSimilarity){
         //console.log(`i:${i}\tj:${j}\tsimilarity:${currentSimilarity}`);
         largestSimilarity = currentSimilarity;
